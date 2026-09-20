@@ -58,7 +58,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); outline
 /* Demo welcome */
 .welcome-page { min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(400px, .85fr); background: #fff; }
 .welcome-visual { position: relative; overflow: hidden; padding: clamp(50px, 7vw, 96px); display: flex; flex-direction: column; justify-content: flex-end; border-right: 2px solid #111; background-color: #fff; background-image: radial-gradient(#d7d7d2 .7px, transparent .7px); background-size: 15px 15px; color: #111; }
-.welcome-visual::before { content: ""; position: absolute; inset: 2% 4% 27%; background: url('/maito-parta.jpeg') center / contain no-repeat; mix-blend-mode: multiply; opacity: .9; filter: contrast(1.28) grayscale(1); transform: rotate(-3deg) scale(1.04); pointer-events: none; }
+.welcome-background { position: absolute; inset: 2% 4% 27%; width: 92%; height: 71%; object-fit: contain; mix-blend-mode: multiply; opacity: .9; filter: contrast(1.28) grayscale(1); transform: rotate(-3deg) scale(1.04); pointer-events: none; }
 .welcome-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0) 48%, rgba(255,255,255,.72) 76%, #fff 100%); pointer-events: none; }
 .welcome-orbit { position: absolute; border: 1px dashed rgba(0,0,0,.22); border-radius: 50%; }
 .orbit-one { width: 520px; height: 520px; top: -60px; left: 50%; transform: translateX(-50%); }
@@ -186,7 +186,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); outline
   .welcome-page { grid-template-columns: 1fr; grid-template-rows: 43dvh auto; }
   .welcome-visual { padding: 27px 24px; justify-content: flex-end; }
   .welcome-visual { border-right: 0; border-bottom: 2px solid #111; }
-  .welcome-visual::before { inset: -4% -12% 24% 24%; opacity: .82; transform: rotate(-6deg); }
+  .welcome-background { inset: -4% -12% 24% 24%; width: 88%; height: 80%; opacity: .82; transform: rotate(-6deg); }
   .welcome-visual::after { background: linear-gradient(to bottom, rgba(255,255,255,.02) 20%, rgba(255,255,255,.9) 96%); }
   .welcome-orbit { display: none; }
   .welcome-star.star-one { top: 15%; left: 10%; }.welcome-star.star-two { display: none; }

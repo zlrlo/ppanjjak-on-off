@@ -19,6 +19,7 @@ export function DemoLoginScreen({
   return (
     <main className="welcome-page">
       <section className="welcome-visual" aria-label="빤짝온오프 소개">
+        <img className="welcome-background" src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/maito-parta.jpeg`} alt="손을 맞잡고 원을 만든 가족 손그림" />
         <div className="welcome-orbit orbit-one" />
         <div className="welcome-orbit orbit-two" />
         <div className="welcome-star star-one">✦</div>

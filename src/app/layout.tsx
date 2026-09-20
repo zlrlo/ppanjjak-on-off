@@ -6,7 +6,10 @@ export const metadata: Metadata = {
   description: "우리 가족 돌봄 근무와 빤짝이 상태를 한눈에",
   applicationName: "빤짝 온오프",
   appleWebApp: { capable: true, title: "빤짝 온오프", statusBarStyle: "default" },
-  icons: { icon: "/icon.svg", apple: "/icon.svg" },
+  icons: {
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon.svg`,
+    apple: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/icon.svg`,
+  },
 };
 
 export const viewport: Viewport = {

@@ -17,6 +17,19 @@ export default function HomePage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
+      if (process.env.NEXT_PUBLIC_DEMO_ONLY === "true") {
+        setDemo(true); setLoggedOut(false);
+        const savedUserId = window.sessionStorage.getItem("ppanjjak_demo_user_id");
+        if (savedUserId) {
+          const next = structuredClone(demoState);
+          next.me.displayName = savedUserId;
+          next.members[0].displayName = savedUserId;
+          setState(next); setDemoNeedsLogin(false);
+        } else {
+          setState(null); setDemoNeedsLogin(true);
+        }
+        return;
+      }
       const config = await fetch("/api/config", { cache: "no-store" }).then((r) => r.json());
       if (!config.configured) {
         setDemo(true); setLoggedOut(false);

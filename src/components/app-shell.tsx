@@ -77,6 +77,7 @@ export function AppShell({
     return () => clearInterval(id);
   }, [refresh]);
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_DEMO_ONLY === "true") return;
     if ("serviceWorker" in navigator)
       navigator.serviceWorker.register("/sw.js").catch(() => undefined);
   }, []);
@@ -369,7 +370,7 @@ function LiveEarnings({
           <h2>실시간으로 쌓이는 급여</h2>
         </div>
         <span className="section-doodle" aria-hidden="true">
-          <img src="/pay-pig.jpeg" alt="" />
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/pay-pig.jpeg`} alt="" />
         </span>
       </div>
       {rows.length ? (
