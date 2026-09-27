@@ -31,6 +31,8 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: /ppanjjak-on-off
         run: |
           mv src/app/api "$RUNNER_TEMP/api"
+          mv src/app/auth "$RUNNER_TEMP/auth"
+          mv src/middleware.ts "$RUNNER_TEMP/middleware.ts"
           npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
