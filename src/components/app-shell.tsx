@@ -370,7 +370,7 @@ function LiveEarnings({
           <h2>실시간으로 쌓이는 급여</h2>
         </div>
         <span className="section-doodle" aria-hidden="true">
-          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/pay-pig.jpeg`} alt="" />
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/earnings-pig.png`} alt="" />
         </span>
       </div>
       {rows.length ? (

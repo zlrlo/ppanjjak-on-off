@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "가족 돌봄 근무와 빤짝이 상태를 기록해요",
     start_url: `${basePath}/`,
     display: "standalone",
-    background_color: "#fff8ed",
-    theme_color: "#ff8a65",
+    background_color: "#ffffff",
+    theme_color: "#ffffff",
     icons: [{ src: `${basePath}/icon.svg`, sizes: "any", type: "image/svg+xml", purpose: "maskable" }],
   };
 }
