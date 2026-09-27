@@ -39,10 +39,12 @@ function localInput(value: string) {
 export function AppShell({
   initial,
   onLogout,
+  onFamilies,
   demo = false,
 }: {
   initial: AppState;
-  onLogout: () => void;
+  onLogout: () => Promise<void>;
+  onFamilies: () => void;
   demo?: boolean;
 }) {
   const [state, setState] = useState(initial);
@@ -57,12 +59,13 @@ export function AppShell({
       if (demo) return;
       const response = await fetch(`/api/state?month=${targetMonth}`, {
         cache: "no-store",
+        headers: { "x-household-id": state.me.householdId },
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.error);
       setState(body);
     },
-    [month, demo],
+    [month, demo, state.me.householdId],
   );
 
   useEffect(() => {
@@ -76,11 +79,7 @@ export function AppShell({
     );
     return () => clearInterval(id);
   }, [refresh]);
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_DEMO_ONLY === "true") return;
-    if ("serviceWorker" in navigator)
-      navigator.serviceWorker.register("/sw.js").catch(() => undefined);
-  }, []);
+
 
   async function act(key: string, url: string, body: unknown) {
     setBusy(key);
@@ -152,7 +151,7 @@ export function AppShell({
       }
       const response = await fetch(url, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", "x-household-id": state.me.householdId },
         body: JSON.stringify(body),
       });
       const result = await response.json();
@@ -180,12 +179,12 @@ export function AppShell({
         </div>
         <div className="top-actions">
           {demo && <span className="demo-pill">UI 데모</span>}
+          {!demo && <button className="icon-btn" aria-label="가족 그룹 및 초대" onClick={onFamilies}><Users/></button>}
           <button
             className="icon-btn"
             aria-label="로그아웃"
             onClick={async () => {
-              if (!demo) await fetch("/api/auth/logout", { method: "POST" });
-              onLogout();
+              try { await onLogout(); } catch (e) { setMessage(e instanceof Error ? e.message : "로그아웃하지 못했어요."); }
             }}
           >
             <LogOut />
@@ -518,7 +517,7 @@ function Admin({
     try {
       const r = await fetch(url, {
         method,
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", "x-household-id": state.me.householdId },
         body: JSON.stringify(payload),
       });
       const body = await r.json();
@@ -538,69 +537,7 @@ function Admin({
           <h2>가족 관리</h2>
         </div>
       </div>
-      <form
-        className="admin-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const d = new FormData(e.currentTarget);
-          submit(
-            "/api/admin/members",
-            "POST",
-            {
-              displayName: d.get("name"),
-              pin: d.get("pin"),
-              role: d.get("role"),
-              hourlyRateWon: Number(d.get("rate")),
-            },
-            "member",
-          ).then(() => e.currentTarget.reset());
-        }}
-      >
-        <h3>새 가족 초대</h3>
-        <div className="form-grid">
-          <label>
-            이름
-            <input
-              name="name"
-              required
-              maxLength={20}
-              placeholder="예: 할머니"
-            />
-          </label>
-          <label>
-            6자리 PIN
-            <input
-              name="pin"
-              required
-              type="password"
-              inputMode="numeric"
-              pattern="\d{6}"
-              placeholder="••••••"
-            />
-          </label>
-          <label>
-            시급
-            <input
-              name="rate"
-              required
-              type="number"
-              min="0"
-              step="100"
-              placeholder="12000"
-            />
-          </label>
-          <label>
-            권한
-            <select name="role">
-              <option value="member">가족</option>
-              <option value="admin">부모 관리자</option>
-            </select>
-          </label>
-        </div>
-        <button className="primary" disabled={Boolean(busy)}>
-          가족 추가하기
-        </button>
-      </form>
+      <p className="demo-banner">가족 초대는 상단의 가족 그룹 버튼에서 관리할 수 있어요. 초대를 수락한 가족은 아래 구성원 목록에 표시됩니다.</p>
       <div className="admin-block">
         <h3>구성원</h3>
         {state.members.map((m) => (
@@ -633,20 +570,7 @@ function Admin({
             >
               시급 변경
             </button>
-            <button
-              onClick={() => {
-                const pin = window.prompt("새 6자리 PIN");
-                if (pin)
-                  submit(
-                    "/api/admin/members",
-                    "PATCH",
-                    { memberId: m.id, pin },
-                    `edit-${m.id}`,
-                  );
-              }}
-            >
-              PIN 재설정
-            </button>
+
           </div>
         ))}
       </div>

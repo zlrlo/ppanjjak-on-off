@@ -304,3 +304,21 @@ button:not(:disabled):active { transform: translateY(2px); box-shadow: none; }
   .baby-grid { grid-template-columns: 1fr; }
   .baby-card h3 { min-height: auto; }
 }
+
+/* Account and family selection */
+.family-hub { width: min(100%, 760px); margin: auto; padding: 32px 20px 64px; display: grid; gap: 22px; }
+.hub-heading, .hub-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.hub-heading h1 { margin: 5px 0 0; font-size: 26px; }
+.family-hub h2 { display: flex; align-items: center; gap: 8px; font-size: 19px; margin: 0 0 18px; }
+.family-hub p { color: var(--subtle); line-height: 1.65; }
+.hub-list { display: grid; gap: 14px; }
+.hub-row { padding: 14px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.hub-row:last-child { border-bottom: 0; }
+.hub-row p { margin: 5px 0 0; font-size: 13px; }
+.hub-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.family-hub .section { margin: 0; }
+.family-hub input { min-width: 0; }
+.family-hub .mini-action { margin-left: 0; }
+.topbar > div:first-child { min-width: 0; }
+.topbar h1 { overflow-wrap: anywhere; }
+.welcome-login > p { word-break: keep-all; }

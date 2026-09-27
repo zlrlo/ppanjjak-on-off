@@ -16,6 +16,9 @@ export async function POST(request: Request) {
     const me = await requireSession(true);
     const input = schema.parse(await request.json());
     const supabase = db();
+    const member = await supabase.from("members").select("id").eq("id", input.memberId).eq("household_id", me.householdId).maybeSingle();
+    if (member.error) throw member.error;
+    if (!member.data) throw Object.assign(new Error("이 가족 그룹의 구성원이 아닙니다."), { status: 403 });
     if (input.action === "reopen") {
       const result = await supabase.from("settlements").update({ status: "unpaid", paid_at: null, paid_by: null,
         paid_minutes: null, paid_amount_won: null }).eq("household_id", me.householdId)
